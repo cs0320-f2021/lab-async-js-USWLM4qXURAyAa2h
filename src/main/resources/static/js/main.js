@@ -34,7 +34,6 @@ input.addEventListener("keyup", () => {
   fetch('/autocorrect', postParameters)
       .then((response) => response.json())//TODO: Parse the JSON in the response object HINT: remember to get the specific field in the JSON you want to use
       .then((data) => {
-
         //TODO: for each element in the set of results, append it to the suggestionList
         //HINT: use innerHTML += to append to the suggestions list
         //NOTE: you should use <li> (list item) tags to wrap each element. When you do so,
@@ -44,35 +43,20 @@ input.addEventListener("keyup", () => {
           let e = data.suggestions[i];
           suggestionList.innerHTML += `<li id="sugg" tabIndex="0">` + e.toString() + `</li>`;
         }
+
+        //TODO: add an click handler to each of the elements you added to the suggestionList
+        // with a function which will replace whatever is in input with the suggestion that
+        // was clicked
+        let suggs = document.querySelectorAll("#sugg");
+        for (let i = 0; i < suggs.length; i++) {
+          let item = suggs[i];
+
+          item.addEventListener("click", event => {
+            console.log(event.target.childNodes[0].data);
+            input.value = event.target.childNodes[0].data;
+          });
+        }
       });
-
-
-  //TODO: add an click handler to each of the elements you added to the suggestionList
-  // with a function which will replace whatever is in input with the suggestion that
-  // was clicked
-  function replaceElement() {
-    input.value = "fuck";
-    // console.log(event.currentTarget);
-    // event.currentTarget.
-  }
-
-  let suggs = document.querySelectorAll('[id="sugg"]');
-
-  for (let i = 0; i < suggs.length; i++) {
-    let item = suggs[i];
-    console.log(item);
-    item.addEventListener("click", replaceElement);
-  }
-
-  // suggs.forEach(function(userItem) {
-  //   console.log(userItem);
-  //   userItem.addEventListener("click", replaceElement);
-  // });
-
-  // for (let s in suggs) {
-  //   console.log(s);
-  //   s.addEventListener("click", replaceElement);
-  // }
 
   //TODO: hide the loading text
   loading.style.display = "";
